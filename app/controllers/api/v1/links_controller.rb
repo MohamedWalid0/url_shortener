@@ -1,4 +1,6 @@
 class Api::V1::LinksController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [ :encode, :decode ], raise: false
+
   before_action :validate_url, only: [ :encode, :decode ]
 
   def encode
