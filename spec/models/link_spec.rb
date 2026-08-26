@@ -22,10 +22,9 @@ RSpec.describe Link, type: :model do
   it "rejects a short_code another link already has" do
     Link.create!(short_code: "abc123", original_url: "https://example.com/other")
 
-    link = Link.new(short_code: "abc123", original_url: url)
-
-    expect(link).not_to be_valid
-    expect(link.errors[:short_code]).to include("has already been taken")
+    expect {
+      Link.create!(short_code: "abc123", original_url: url)
+    }.to raise_error(ActiveRecord::RecordNotUnique)
   end
 
   it "rejects a url that is not http or https" do

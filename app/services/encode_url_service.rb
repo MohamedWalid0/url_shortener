@@ -14,7 +14,7 @@ class EncodeUrlService
     return if url.blank?
 
     MAX_ATTEMPTS.times do |attempt|
-      link = collision_at(short_code(attempt))
+      link = find_or_create_link_at(short_code(attempt))
       return link if link.original_url == url
     end
 
@@ -40,9 +40,7 @@ class EncodeUrlService
     Digest::SHA1.hexdigest(key).first(CODE_LENGTH)
   end
 
-  def collision_at(code)
-    Link.transaction do
-      Link.lock.find_by(short_code: code) || Link.create!(short_code: code, original_url: url)
-    end
+  def find_or_create_link_at(code)
+    Link.find_or_create_by!(short_code: code) { |link| link.original_url = url }
   end
 end
