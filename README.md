@@ -6,8 +6,6 @@ cd url_shortener
 docker compose up --build
 ```
 
----
-
 # Usage
 
 ## Encode
@@ -18,7 +16,8 @@ docker compose up --build
 curl -X POST https://web-production-994b4.up.railway.app/api/v1/encode \
   -H 'Content-Type: application/json' \
   -d '{"url":"https://www.google.com/search?q=rails"}'
-```
+```<img width="1365" height="560" alt="Screenshot From 2026-08-26 05-08-15" src="https://github.com/user-attachments/assets/2fdb9bbc-3b9f-4501-82b0-b3e3925ec6a0" />
+
 
 **Response**
 
@@ -42,21 +41,15 @@ curl -X POST https://web-production-994b4.up.railway.app/api/v1/decode \
 {"id":4,"original_url":"https://www.google.com/search?q=rails","short_url":"https://web-production-994b4.up.railway.app/33a881f5"}
 ```
 
----
-
 # Testing
 
 ```bash
 docker compose exec web bundle exec rspec
 ```
 
----
-
 # High Level System design (Current Version) (NOT Scalable)
 
-image.png
-
-# Description
+## Description
 
 - The app design focuses on simplicity to achieve the task core functionality.
 - The `/encode` endpoint receives the original url, then the flow becomes:
@@ -82,15 +75,15 @@ call the DecodeUrlService ->
 - use `blueprinter` gem, for seralize and unify the `Link` object
 
 # Current Design Tradeoffs
+<img width="1175" height="553" alt="Screenshot From 2026-08-26 05-21-15" src="https://github.com/user-attachments/assets/1fa7a493-3578-4417-b8c9-5b55c6138480" />
 
 - The app needs Authentication and Authorization, CORS setup 
 - Rate Limiter
 - No CORS setup yet
 - No `GET /:short_code` route yet, so the generated short URLs do not redirect
 
-------------------------
-
 # Future Scalling requirments (NOT Implemented yet)
+<img width="1365" height="560" alt="Screenshot From 2026-08-26 05-08-15" src="https://github.com/user-attachments/assets/30b02a2f-a752-4da2-8574-bc25c2c1180d" />
 
 - Use `Horizontal Scalling` for adding more instances
 - Use `Load Balancer` to distribute the load accross the multiple instances (Simply with `Round-Roben` algorithm)
