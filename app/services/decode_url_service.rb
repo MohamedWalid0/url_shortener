@@ -20,6 +20,8 @@ class DecodeUrlService
   attr_reader :uri
 
   def our_host?
+    return true if Rails.env.development?
+
     uri.host.casecmp?(HOST)
   end
 
