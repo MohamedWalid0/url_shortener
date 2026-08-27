@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe "Api::V1::Links", type: :request do
   let(:url) { "https://codesubmit.io/library/react" }
 
+  before { host! DecodeUrlService::HOST }
+
   describe "POST /api/v1/encode" do
     it "returns the original url and a short url on this host" do
       post "/api/v1/encode", params: { url: url }
@@ -11,7 +13,7 @@ RSpec.describe "Api::V1::Links", type: :request do
       expect(response.parsed_body).to eq(
         "id" => Link.last.id,
         "original_url" => url,
-        "short_url" => "http://www.example.com/#{Link.last.short_code}"
+        "short_url" => "http://#{DecodeUrlService::HOST}/#{Link.last.short_code}"
       )
     end
 
@@ -42,8 +44,18 @@ RSpec.describe "Api::V1::Links", type: :request do
       expect(response.parsed_body).to eq("id" => Link.last.id, "original_url" => url, "short_url" => short_url)
     end
 
+    it "returns not found for a short url on another host" do
+      post "/api/v1/encode", params: { url: url }
+      short_code = Link.last.short_code
+
+      post "/api/v1/decode", params: { url: "http://evil.example.com/#{short_code}" }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.parsed_body["error"]).to eq("short url not found")
+    end
+
     it "returns not found for an unknown short url" do
-      post "/api/v1/decode", params: { url: "http://www.example.com/unknown" }
+      post "/api/v1/decode", params: { url: "http://#{DecodeUrlService::HOST}/unknown" }
 
       expect(response).to have_http_status(:not_found)
       expect(response.parsed_body["error"]).to eq("short url not found")

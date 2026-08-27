@@ -1,26 +1,29 @@
 class DecodeUrlService
+  HOST = "web-production-994b4.up.railway.app".freeze
+
   def self.call(url)
     new(url).call
   end
 
   def initialize(url)
-    @url = url
+    @uri = URI.parse(url)
   end
 
   def call
-    code = short_code
-    return if code.blank?
+    return unless our_host?
 
-    Link.find_by(short_code: code)
+    Link.find_by(short_code: short_code)
   end
 
   private
 
-  attr_reader :url
+  attr_reader :uri
+
+  def our_host?
+    uri.host.casecmp?(HOST)
+  end
 
   def short_code
-    URI.parse(url.to_s).path.split("/").last
-  rescue URI::InvalidURIError
-    nil
+    uri.path.split("/").last
   end
 end

@@ -56,7 +56,7 @@ RSpec.describe EncodeUrlService, type: :model do
   it "round trips through DecodeUrlService" do
     link = described_class.call(url)
 
-    expect(DecodeUrlService.call("http://your.domain/#{link.short_code}")).to eq(link)
+    expect(DecodeUrlService.call("http://#{DecodeUrlService::HOST}/#{link.short_code}")).to eq(link)
   end
 
   context "when another url already holds the unsalted code" do
@@ -74,8 +74,8 @@ RSpec.describe EncodeUrlService, type: :model do
       link = described_class.call(url)
 
       expect(described_class.call(url)).to eq(link)
-      expect(DecodeUrlService.call("http://your.domain/#{link.short_code}")).to eq(link)
-      expect(DecodeUrlService.call("http://your.domain/#{squatter.short_code}")).to eq(squatter)
+      expect(DecodeUrlService.call("http://#{DecodeUrlService::HOST}/#{link.short_code}")).to eq(link)
+      expect(DecodeUrlService.call("http://#{DecodeUrlService::HOST}/#{squatter.short_code}")).to eq(squatter)
     end
   end
 
