@@ -17,7 +17,6 @@ docker compose up --build
   curl -X POST https://web-production-994b4.up.railway.app/api/v1/encode \
     -H 'Content-Type: application/json' \
     -d '{"url":"https://www.google.com/search?q=rails"}'
-  ```<img width="1365" height="560" alt="Screenshot From 2026-08-26 05-08-15" src="https://github.com/user-attachments/assets/2fdb9bbc-3b9f-4501-82b0-b3e3925ec6a0" />
   ```
   
   **Response**
