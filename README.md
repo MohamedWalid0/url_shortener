@@ -18,7 +18,7 @@ docker compose up --build
     -H 'Content-Type: application/json' \
     -d '{"url":"https://www.google.com/search?q=rails"}'
   ```<img width="1365" height="560" alt="Screenshot From 2026-08-26 05-08-15" src="https://github.com/user-attachments/assets/2fdb9bbc-3b9f-4501-82b0-b3e3925ec6a0" />
-  
+  ```
   
   **Response**
   
@@ -73,6 +73,7 @@ docker compose exec web bundle exec rspec
   validate url ->
   call the DecodeUrlService ->
       -> Extract the `short_code`
+      -> Check if the URL is the same as our host
       -> Find the link by `short_code`, or return not found
   ```
   
