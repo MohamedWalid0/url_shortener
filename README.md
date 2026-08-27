@@ -72,7 +72,7 @@ docker compose exec web bundle exec rspec
   validate url ->
   call the DecodeUrlService ->
       -> Extract the `short_code`
-      -> Check if the URL is the same as our host
+      -> Check if the URL is the same as our host, bypass the development env
       -> Find the link by `short_code`, or return not found
   ```
   
