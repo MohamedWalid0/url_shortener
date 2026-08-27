@@ -1,13 +1,4 @@
-# Installation
-
-```bash
-git clone https://github.com/MohamedWalid0/url_shortener
-cd url_shortener
-docker compose up --build
-```
-------------------------
-
-# Usage
+# Usage (Live)
 
 - Encode
 
@@ -41,7 +32,14 @@ docker compose up --build
   {"id":4,"original_url":"https://www.google.com/search?q=rails","short_url":"https://web-production-994b4.up.railway.app/33a881f5"}
   ```
 ------------------------
+# Installation (Local)
 
+```bash
+git clone https://github.com/MohamedWalid0/url_shortener
+cd url_shortener
+docker compose up --build
+```
+------------------------
 # Testing
 
 ```bash
